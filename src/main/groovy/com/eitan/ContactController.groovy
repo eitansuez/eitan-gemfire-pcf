@@ -10,7 +10,7 @@ import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.web.bind.annotation.RequestMethod.POST
 
 @RestController
-@RequestMapping("/contacts")
+@RequestMapping("/contacts2")
 class ContactController {
   @Autowired
   ContactRepository repository
