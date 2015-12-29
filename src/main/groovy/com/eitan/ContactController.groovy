@@ -1,8 +1,10 @@
 package com.eitan
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.rest.webmvc.ResourceNotFoundException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -22,11 +24,14 @@ class ContactController {
 
   @RequestMapping("/{id}")
   Contact contact(@PathVariable Long id) {
-    repository.findOne(id)
+    if (repository.exists(id)) {
+      return repository.findOne(id)
+    }
+    throw new ResourceNotFoundException("resource for id $id not found")
   }
 
   @RequestMapping(value="/", method=POST)
-  ResponseEntity<Contact> saveContact(Contact contact) {
+  ResponseEntity<Contact> saveContact(@RequestBody Contact contact) {
     repository.save(contact)
     new ResponseEntity<Contact>(CREATED)
   }
