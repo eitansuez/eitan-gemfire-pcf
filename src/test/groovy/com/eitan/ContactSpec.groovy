@@ -8,4 +8,9 @@ class ContactSpec extends Specification {
     expect:
     new Contact(name: 'eitan').name == 'eitan'
   }
+
+  def "should have an age"() {
+    expect:
+    new Contact(name: 'eitan', age: 45).age == 45
+  }
 }
