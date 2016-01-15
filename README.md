@@ -1,4 +1,9 @@
 
+A simple spring boot app, designed to with in pivotal cloud foundry using the gemfire pcf tile.
+Basic illustration of gemfire development against pcf, with localconfig support added.
+
+---
+cheat sheet..
 
 cluster config:
 
