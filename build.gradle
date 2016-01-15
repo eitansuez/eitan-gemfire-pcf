@@ -18,6 +18,7 @@ version '1.0-SNAPSHOT'
 
 repositories {
   mavenCentral()
+  mavenLocal()
   maven { url "http://repo.spring.io/libs-release/" }
 }
 
@@ -30,9 +31,11 @@ dependencies {
   compile 'com.gemstone.gemfire:gemfire:8.2.0'
   compile 'org.springframework.data:spring-data-gemfire:1.7.2.RELEASE'
 
-  compile("io.pivotal.spring.cloud:spring-cloud-gemfire-spring-connector:1.0.0.RELEASE")
-  compile("io.pivotal.spring.cloud:spring-cloud-gemfire-cloudfoundry-connector:1.0.0.RELEASE")
-  compile("org.springframework.cloud:spring-cloud-localconfig-connector:1.2.1.RELEASE")
+  compile "io.pivotal.spring.cloud:spring-cloud-gemfire-spring-connector:1.0.0.RELEASE"
+  compile "io.pivotal.spring.cloud:spring-cloud-gemfire-cloudfoundry-connector:1.0.0.RELEASE"
+
+  compile "org.springframework.cloud:spring-cloud-localconfig-connector:1.2.1.RELEASE"
+  compile "org.springframework.cloud:spring-cloud-localconfig-gemfire:1.0.0.RELEASE"
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
