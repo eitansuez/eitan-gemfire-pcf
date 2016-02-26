@@ -7,6 +7,7 @@ import com.gemstone.gemfire.pdx.ReflectionBasedAutoSerializer
 import io.pivotal.spring.cloud.service.gemfire.GemfireServiceConnectorConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.config.java.AbstractCloudConfig
@@ -18,14 +19,14 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
 @EnableGemfireRepositories(basePackages = 'com.eitan')
 class ContactApplication extends AbstractCloudConfig {
 
-  public ServiceConnectorConfig createGemfireConnectorConfig() {
+  ServiceConnectorConfig createGemfireConnectorConfig() {
     def gemfireConfig = new GemfireServiceConnectorConfig()
     gemfireConfig.setPdxSerializer(new ReflectionBasedAutoSerializer("com.eitan.Contact"))
     gemfireConfig
   }
 
   @Bean
-  public ClientCache myClientCache() {
+  ClientCache myClientCache() {
     cloud().getServiceConnector("my-gemfire-service",
         ClientCache,
         createGemfireConnectorConfig())
@@ -33,8 +34,19 @@ class ContactApplication extends AbstractCloudConfig {
 
   @Autowired
   @Bean @Qualifier("ContactsRegion")
-  public Region contactsRegion(ClientCache cache) {
-    cache.createClientRegionFactory(ClientRegionShortcut.PROXY).create("ContactsRegion")
+  Region contactsRegion(ClientCache cache) {
+    cache
+        .createClientRegionFactory(ClientRegionShortcut.PROXY)
+        .create("ContactsRegion")
+  }
+
+  @Bean
+  CommandLineRunner loadDatabase(ContactRepository repo) {
+    return { args ->
+      20.times { i ->
+        repo.save(new Contact(id: i, age: i, name: "Joe$i"))
+      }
+    }
   }
 
   static void main(String[] args) {
