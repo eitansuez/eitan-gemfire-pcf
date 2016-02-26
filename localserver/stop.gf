@@ -1,0 +1,4 @@
+
+shutdown --include-locators=true
+
+
